@@ -1,6 +1,6 @@
 CREATE DATABASE db;
 
---create tables
+--create entity tables
 CREATE TABLE IF NOT EXISTS Customer (
   cid int, 
   firstName varchar,
@@ -55,6 +55,7 @@ CREATE TABLE IF NOT EXISTS Product (
   size int CHECK (size > 0),
   PRIMARY KEY (pid)
 );
+--create relation tables
 CREATE TABLE IF NOT EXISTS Cust_Addr (
   cid integer,
   stAddr varchar,
