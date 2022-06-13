@@ -1,10 +1,4 @@
-/*create table scientist (id integer, firstname varchar(100), lastname varchar(100));
-		insert into scientist (id, firstname, lastname) values (1, 'albert', 'einstein');
-		insert into scientist (id, firstname, lastname) values (2, 'isaac', 'newton');
-		insert into scientist (id, firstname, lastname) values (3, 'marie', 'curie');
-		select * from scientist;*/
-        
---CREATE DATABASE db;
+CREATE DATABASE db;
 
 --create tables
 CREATE TABLE IF NOT EXISTS Customer (
