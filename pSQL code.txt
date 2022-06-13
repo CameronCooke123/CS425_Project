@@ -1,0 +1,183 @@
+/*create table scientist (id integer, firstname varchar(100), lastname varchar(100));
+		insert into scientist (id, firstname, lastname) values (1, 'albert', 'einstein');
+		insert into scientist (id, firstname, lastname) values (2, 'isaac', 'newton');
+		insert into scientist (id, firstname, lastname) values (3, 'marie', 'curie');
+		select * from scientist;*/
+        
+--CREATE DATABASE db;
+
+--create tables
+CREATE TABLE IF NOT EXISTS Customer (
+  cid int, 
+  firstName varchar,
+  lastName varchar,
+  balance int,
+  PRIMARY KEY (cid)
+);
+CREATE TABLE IF NOT EXISTS Address (
+  stAddr varchar,
+  city varchar,
+  state char(2),
+  zipCode varchar,
+  PRIMARY KEY (stAddr, city, state, zipCode)
+);
+CREATE TABLE IF NOT EXISTS StaffMember (
+  sid int,
+  firstName varchar,
+  lastName varchar,
+  salary int CHECK (salary > 0),
+  jobTitle varchar,
+  PRIMARY KEY (sid)
+);
+CREATE TABLE IF NOT EXISTS CreditCard (
+  mainNumber numeric(16),
+  secCode numeric(3),
+  expiryDate numeric(4),
+  nameOnCard varchar,
+  PRIMARY KEY (mainNumber)
+);
+DROP TYPE IF EXISTS delStatus CASCADE;
+CREATE TYPE delStatus AS ENUM ('issued', 'sent', 'received');
+CREATE TABLE IF NOT EXISTS CustOrder (
+  orderID int,
+  dateIssued numeric(8), --mmddyyyy
+  status delStatus,
+  PRIMARY KEY (orderID)
+);
+CREATE TABLE IF NOT EXISTS Warehouse (
+  whid int,
+  capacity int CHECK (capacity >= 0),
+  PRIMARY KEY (whid)
+);
+CREATE TABLE IF NOT EXISTS Supplier (
+  name varchar,
+  PRIMARY KEY (name)
+);
+CREATE TABLE IF NOT EXISTS Product (
+  pid numeric,
+  name varchar,
+  category varchar,
+  type varchar,
+  size int CHECK (size > 0),
+  PRIMARY KEY (pid)
+);
+CREATE TABLE IF NOT EXISTS Cust_Addr (
+  cid integer,
+  stAddr varchar,
+  city varchar,
+  state char(2),
+  zipCode varchar,
+  PRIMARY KEY (cid),
+  FOREIGN KEY (cid) references Customer,
+  FOREIGN KEY (stAddr, city, state, zipCode) references Address
+);
+CREATE TABLE IF NOT EXISTS Cust_CC (
+  mainNumber numeric(16),
+  cid int,
+  PRIMARY KEY (mainNumber),
+  FOREIGN KEY (mainNumber) references CreditCard,
+  FOREIGN KEY (cid) references Customer
+);
+CREATE TABLE IF NOT EXISTS CC_Billing_Addr (
+  mainNumber numeric(16),
+  stAddr varchar,
+  city varchar,
+  state char(2),
+  zipCode varchar,
+  PRIMARY KEY (mainNumber),
+  FOREIGN KEY (mainNumber) references CreditCard,
+  FOREIGN KEY (stAddr, city, state, zipCode) references Address
+);
+CREATE TABLE IF NOT EXISTS Ordered_By (
+  orderID int,
+  cid int,
+  PRIMARY KEY (orderID),
+  FOREIGN KEY (orderID) references CustOrder,
+  FOREIGN KEY (cid) references Customer
+);
+CREATE TABLE IF NOT EXISTS Order_Paid_With (
+  orderID int,
+  mainNumber numeric(16),
+  PRIMARY KEY (orderID),
+  FOREIGN KEY (orderID) references CustOrder,
+  FOREIGN KEY (mainNumber) references CreditCard
+);
+CREATE TABLE IF NOT EXISTS Staff_Addr (
+  sid int,
+  stAddr varchar,
+  city varchar,
+  state char(2),
+  zipCode varchar,
+  PRIMARY KEY (sid),
+  FOREIGN KEY (sid) references StaffMember,
+  FOREIGN KEY (stAddr, city, state, zipCode) references Address
+);
+CREATE TABLE IF NOT EXISTS WH_Addr (
+  whid int,
+  stAddr varchar,
+  city varchar,
+  state char(2),
+  zipCode varchar,
+  PRIMARY KEY (whid),
+  FOREIGN KEY (whid) references Warehouse,
+  FOREIGN KEY (stAddr, city, state, zipCode) references Address
+);
+CREATE TABLE IF NOT EXISTS Supp_Addr (
+  name varchar,
+  stAddr varchar,
+  city varchar,
+  state char(2),
+  zipCode varchar,
+  PRIMARY KEY (name),
+  FOREIGN KEY (name) references Supplier,
+  FOREIGN KEY (stAddr, city, state, zipCode) references Address
+);
+CREATE TABLE IF NOT EXISTS WH_Stock (
+  whid int,
+  pid int,
+  numberInStock int CHECK (numberInStock > 0),
+  PRIMARY KEY (whid, pid),
+  FOREIGN KEY (whid) references Warehouse,
+  FOREIGN KEY (pid) references Product
+);
+CREATE TABLE IF NOT EXISTS Supp_Prod (
+  name varchar,
+  pid int,
+  supplierPrice int CHECK (supplierPrice > 0),
+  PRIMARY KEY (name, pid),
+  FOREIGN KEY (name) references Supplier,
+  FOREIGN KEY (pid) references Product
+);
+CREATE TABLE IF NOT EXISTS Prod_Price (
+  pid int,
+  state char(2),
+  dollarAmt int CHECK (dollarAmt > 0),
+  PRIMARY KEY (pid, state),
+  FOREIGN KEY (pid) references Product
+);
+CREATE TABLE IF NOT EXISTS Prod_In_Order (
+  orderID int,
+  pid int,
+  numberOfProduct int CHECK (numberOfProduct > 0),
+  PRIMARY KEY (orderID, pid),
+  FOREIGN KEY (orderID) references CustOrder,
+  FOREIGN KEY (pid) references Product
+);
+CREATE TABLE IF NOT EXISTS Alcohol (
+  pid int,
+  alcContent real CHECK (alcContent <= 1 AND alcContent >= 0),
+  PRIMARY KEY (pid),
+  FOREIGN KEY (pid) references Product
+);
+CREATE TABLE IF NOT EXISTS Food (
+  pid int,
+  calories int CHECK (calories > 0),
+  carbs int CHECK (carbs > 0),
+  fat int CHECK (fat > 0),
+  protein int CHECK (protein > 0),
+  sodium int CHECK (sodium > 0),
+  PRIMARY KEY (pid),
+  FOREIGN KEY (pid) references Product
+);
+
+  
