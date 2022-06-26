@@ -296,39 +296,6 @@ create_tables_code = '''
           FOREIGN KEY (pid) references Product
         );'''
 
-#def example ():
-#    # cur.execute('DROP TABLE IF EXISTS example')
-#
-#    # create_script = '''CREATE TABLE IF NOT EXISTS example
-#    #                    (
-#    #                        id int PRIMARY KEY,
-#    #                        name varchar(40) NOT NULL,
-#    #                        salary int,
-#    #                        dept_id varchar(30)
-#    #                    )'''
-#    # cur.execute(create_script)
-#
-#    # insert_script = 'INSERT INTO example (id, name, salary, dept_id) VALUES (%s, %s, %s, %s)'
-#    # insert_values = [(1, 'James', 120000, 'D1'),
-#    #                 (2, 'Robin', 110000, 'D1'),
-#    #                 (3, 'Myguy', 130000, 'D2')]
-#    # for record in insert_values:
-#    #    cur.execute(insert_script, record)
-#
-#    # update_script = 'UPDATE example SET salary = salary * 1.5'
-#    # cur.execute(update_script)
-#
-#    # delete_script = 'DELETE FROM example WHERE name = %s'
-#    # delete_record = ('James',)
-#    # cur.execute(delete_script, delete_record)
-#
-#    # cur.execute('SELECT * FROM example')
-#    # for record in cur.fetchall():
-#    #    print(record['name'], record['salary'])
-#
-#    # conn.commit()
-
-
 if __name__ == '__main__':
     main()
 
